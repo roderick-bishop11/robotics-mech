@@ -48,6 +48,13 @@ void handleLEDOff() {
   digitalWrite(ledPin, LOW);
   server.send(200, "text/html", HTMLPage());
 }
+void handleLEDConnected(){
+  ledState = false;
+  digitalWrite(ledPin, RISING);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+  server.send(200, "text/html", HTMLPage());
+}
 
 //override from arduino.h?
 void setup() {
@@ -63,10 +70,13 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-    if(millis() - startTime > 30000){
-      Serial.print("Please try to change your creds.");
-      break;
-    }
+    // if(millis() - startTime > 30000){
+    //   Serial.print("Please try to change your creds.");
+    //   break;
+    // }
+  }
+  if(WiFi.status() == WL_CONNECTED){
+      handleLEDConnected();
   }
   Serial.println("\nConnected to Wi-Fi");
   Serial.println(WiFi.localIP());
@@ -84,4 +94,5 @@ void setup() {
 //override from arduino.h
 void loop() {
   server.handleClient(); // Handle client requests
+  //do something to catch errors?
 }
