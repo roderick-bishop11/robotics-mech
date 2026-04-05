@@ -70,10 +70,10 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-    // if(millis() - startTime > 30000){
-    //   Serial.print("Please try to change your creds.");
-    //   break;
-    // }
+    if(millis() - startTime > 30000){
+      Serial.print("Please try to change your creds.");
+      break;
+    }
   }
   if(WiFi.status() == WL_CONNECTED){
       handleLEDConnected();
